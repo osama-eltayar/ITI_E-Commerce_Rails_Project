@@ -19,7 +19,14 @@
           <li class="nav-item active">
             <%= link_to "Products", products_path, :class=>"nav-link" %>
           </li>
+          
+
           <% if user_signed_in? %>
+            <% if current_user.buyer? %>
+              <li class="nav-item active">
+                <%= link_to "My Orders", orders_path, :class=>"nav-link" %>
+              </li>
+            <% end %>
             <li class="nav-item active">
               <%= link_to "#{current_user.buyer? ? 'Shopping Cart' : 'Orders'}", shopping_carts_path, :class=>"nav-link" %>
             </li>

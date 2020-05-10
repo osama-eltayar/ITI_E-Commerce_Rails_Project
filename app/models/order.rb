@@ -2,6 +2,8 @@ class Order < ApplicationRecord
     belongs_to :user
     has_many :shopping_carts
 
+    
+
     def user_name
       user.username
     end
@@ -15,9 +17,12 @@ class Order < ApplicationRecord
       self.status = status
       self.save
     end
+
+   
     
     before_create :calculate_price
     after_create :submit_cart  
+    before_destroy :destroy_carts
 
   private
     def calculate_price
@@ -27,5 +32,9 @@ class Order < ApplicationRecord
 
     def submit_cart
       ShoppingCart.submit_current_cart(user.id, self.id)
+    end
+
+    def destroy_carts
+      shopping_carts.destroy_all
     end
 end

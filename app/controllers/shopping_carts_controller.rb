@@ -5,11 +5,7 @@ class ShoppingCartsController < ApplicationController
   # GET /shopping_carts
   # GET /shopping_carts.json
   def index
-    if(current_user.buyer?)
-      @shopping_carts = ShoppingCart.current_cart(current_user.id)
-    elsif(current_user.seller?)
-      @shopping_carts = ShoppingCart.seller_orders(current_user)
-    end
+    @shopping_carts=ShoppingCart.carts(current_user)
   end
 
   # GET /shopping_carts/1
@@ -28,20 +24,15 @@ class ShoppingCartsController < ApplicationController
   def edit
   end
 
-  # POST /shopping_carts
-  # POST /shopping_carts.json
   def create
-    # abort shopping_cart_params.inspect
+    authorize! :create, @shopping_cart
     @shopping_cart = ShoppingCart.new(shopping_cart_params.merge(user_id: current_user.id, order_id: nil))
-    # abort @shopping_cart.inspect
 
     respond_to do |format|
       if @shopping_cart.save
-        # abort @shopping_cart.inspect
         format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully created.' }
         format.json { render  @shopping_cart, status: :created, location: @shopping_cart }
       else
-        # abort @shopping_cart.inspect
         format.html { render :new }
         format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
       end
@@ -51,7 +42,6 @@ class ShoppingCartsController < ApplicationController
   # PATCH/PUT /shopping_carts/1
   # PATCH/PUT /shopping_carts/1.json
   def update
-    # abort shopping_cart_params_update.inspect
     authorize! :update, @shopping_cart
     respond_to do |format|
       if @shopping_cart.update(shopping_cart_params_update)
@@ -82,11 +72,11 @@ class ShoppingCartsController < ApplicationController
     redirect_to shopping_carts_path 
   end
 
-  def delever
+  def deliver
     @shopping_cart = ShoppingCart.find(params[:id])
     authorize! :update, @shopping_cart
     if (@shopping_cart.order.status == "Confirmed")
-      @shopping_cart.update(status: "Delevered")
+      @shopping_cart.update(status: "Delivered")
     end
     redirect_to shopping_carts_path 
   end

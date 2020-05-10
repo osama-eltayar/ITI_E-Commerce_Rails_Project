@@ -2,13 +2,13 @@
 
 <h1>Orders</h1>
 
-<table>
-  <thead>
+<table class="table">
+  <thead class="thead-dark">
     <tr>
-      <th>User</th>
-      <th>Status</th>
-      <th>Price</th>
-      <th colspan="2"></th>
+      <th scope="col">User</th>
+      <th scope="col">Status</th>
+      <th scope="col">Price</th>
+      <th ></th>
     </tr>
   </thead>
 
@@ -18,8 +18,12 @@
         <td><%= order.user_name %></td>
         <td><%= order.status %></td>
         <td><%= order.price %></td>
-        <td><%= link_to 'Show', order %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to 'Show', order, :class => 'btn btn-info ' %>
+          <%if order.status != "Delivered"%>
+            <%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger ' %>
+          <%end%>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -27,4 +31,3 @@
 
 <br>
 
-<%= link_to 'New Order', new_order_path %>

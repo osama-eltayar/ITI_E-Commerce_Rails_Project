@@ -5,8 +5,12 @@ class ShoppingCart < ApplicationRecord
 
   validate :check_available
 
-  def self.current_cart(user)
-    ShoppingCart.where(order_id: nil, user_id: user)  
+  def self.carts(user)
+    if(user.buyer?)
+      ShoppingCart.where(order_id: nil, user_id: user.id)
+    elsif(user.seller?)
+      ShoppingCart.where.not(order_id: nil).where(product_id: user.products)
+    end
   end
 
   def self.submit_current_cart(user, order)
@@ -27,9 +31,10 @@ class ShoppingCart < ApplicationRecord
     self.status == "Confirmed"
   end
 
-  def self.seller_orders(user)
-    # abort ShoppingCart.joins(:product).inspect 
-    ShoppingCart.where.not(order_id: nil).where(product_id: user.products) 
+  
+
+  def user_name
+    user.username
   end
 
   before_save :calculate_price 
