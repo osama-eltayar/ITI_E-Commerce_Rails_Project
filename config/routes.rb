@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'coupons/index'
   resources :stores
   devise_for :users, controllers: {
     confirmations: 'users/confirmations'
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   resources :categories
   resources :brands
   resources :products
+  resources :coupons
 
   resources :shopping_carts
   put '/shopping_carts/:id/confirm', to: 'shopping_carts#confirm', as: 'confirm_shopping_cart'

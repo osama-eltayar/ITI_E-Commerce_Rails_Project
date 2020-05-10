@@ -1,6 +1,8 @@
 class Order < ApplicationRecord
     belongs_to :user
     has_many :shopping_carts
+    belongs_to :coupon, optional: true
+
 
     
 
