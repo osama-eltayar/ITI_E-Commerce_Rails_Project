@@ -19,9 +19,8 @@
         <td><%= shopping_cart.product.title %></td>
         <td>
         <%if current_user.buyer?%>
-          <%= form_with(url: shopping_cart, method: "put") do |form| %>
+          <%= form_with(model: shopping_cart, local: true) do |form| %>
             <%= form.number_field :quantity, value: shopping_cart.quantity %>
-            <%= form.hidden_field(:product_id, :value => shopping_cart.product.id) %>
             <%= form.submit "add", :class => 'btn btn-info ' %>
           <% end %>
         <%else%>
@@ -31,7 +30,7 @@
         <td><%= shopping_cart.price %></td>
         <td><%= shopping_cart.order_id %></td>
         <%if current_user.buyer? %>
-          <td><%= link_to 'Edit', edit_shopping_cart_path(shopping_cart), :class => 'btn btn-success ' %></td>
+          
         <%elsif shopping_cart.pinned? %>
           <td><%= link_to 'Confirm', confirm_shopping_cart_path(shopping_cart), method: :put %></td>
         <%elsif shopping_cart.confirmed? && shopping_cart.order_confirmed? %>

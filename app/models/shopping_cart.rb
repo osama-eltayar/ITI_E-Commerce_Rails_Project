@@ -13,6 +13,10 @@ class ShoppingCart < ApplicationRecord
     end
   end
 
+  def self.cart_products(user)
+    ShoppingCart.where(order_id: nil, user_id: user.id).select(:product_id).map(&:product_id)
+  end
+
   def self.submit_current_cart(user, order)
     carts = self.carts(user)    
     carts.update_all(order_id: order, status: "Pending")

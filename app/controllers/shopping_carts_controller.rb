@@ -26,9 +26,17 @@ class ShoppingCartsController < ApplicationController
 
   def create
     # authorize! :create, @shopping_cart
-    
-    @shopping_cart = ShoppingCart.new(shopping_cart_params.merge(user_id: current_user.id, order_id: nil))
+    products = ShoppingCart.cart_products(current_user)
+    product = shopping_cart_params['product_id'].to_i
 
+    if products.include?(product)
+      @shopping_cart = ShoppingCart.where(order_id: nil, product_id: product, user_id: current_user.id).first
+      @shopping_cart.quantity +=shopping_cart_params['quantity'].to_i
+    else
+      @shopping_cart = ShoppingCart.new(shopping_cart_params.merge(user_id: current_user.id, order_id: nil))
+    end
+    
+    # abort @shopping_cart.inspect
     respond_to do |format|
       if @shopping_cart.save
         format.html { redirect_to @shopping_cart, notice: 'successfull added.' }
@@ -43,6 +51,7 @@ class ShoppingCartsController < ApplicationController
   # PATCH/PUT /shopping_carts/1
   # PATCH/PUT /shopping_carts/1.json
   def update
+    # abort shopping_cart_params_update.inspect
     authorize! :update, @shopping_cart
     respond_to do |format|
       if @shopping_cart.update(shopping_cart_params_update)
