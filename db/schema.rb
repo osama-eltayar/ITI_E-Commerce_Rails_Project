@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_032158) do
     t.bigint "category_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "store_id"
+    t.bigint "store_id", null: false
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["store_id"], name: "index_products_on_store_id"
@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(version: 2020_05_06_032158) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
-  add_foreign_key "products", "stores"
   add_foreign_key "shopping_carts", "orders"
   add_foreign_key "shopping_carts", "products"
   add_foreign_key "shopping_carts", "users"
