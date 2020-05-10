@@ -26,10 +26,14 @@
                 <%# <%= select_tag :brand_id, options_for_select(Brand.all, selected: params[:brand_id]) %>
                 <%# <%= options_for_select(cities_array) %>
                 <% brands_array = Brand.all.map { |brand| [brand.name, brand.id] } %>
-                <%= select_tag :brand_id, options_for_select(brands_array,params[:brand_id]), {:include_blank => "brand",class: 'btn btn-primary'} %>
+                <%= select_tag :brand_id, options_for_select(brands_array,params[:brand_id]), {:include_blank => "brand",class: 'btn btn-outline-info'} %>
 
                 <% categories_array = Category.all.map { |category| [category.name, category.id] } %>
-                <%= select_tag :category_id, options_for_select(categories_array,params[:category_id]), {:include_blank => "category" ,class: 'btn btn-primary'}%>
+                <%= select_tag :category_id, options_for_select(categories_array,params[:category_id]), {:include_blank => "category" ,class: 'btn btn-outline-info'}%>
+
+                <% stores_array = Store.all.map { |store| [store.name, store.id] } %>
+                <%= select_tag :store_id, options_for_select(stores_array,params[:store_id]), {:include_blank => "store" ,class: 'btn btn-outline-info'} %>
+
                 <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control mysearch" %>
                 <div class="input-group-btn">
                     <%= button_tag "search", :class => 'btn btn-info glyphicon glyphicon-search',:name => nil%>
