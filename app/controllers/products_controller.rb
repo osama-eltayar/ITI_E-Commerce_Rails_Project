@@ -11,6 +11,8 @@ class ProductsController < ApplicationController
             @products=@products.where('price <= :max',max: params[:max]) if params[:max].present?;
             @products=@products.where(brand_id: params[:brand_id]) if params[:brand_id].present?;
             @products=@products.where(category_id: params[:category_id]) if params[:category_id].present?;
+            @products=@products.where(store_id: params[:store_id]) if params[:store_id].present?;
+
 
         respond_with( @products, :layout => !request.xhr? )
 
