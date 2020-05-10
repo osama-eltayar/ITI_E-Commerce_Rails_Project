@@ -14,7 +14,7 @@ class ShoppingCart < ApplicationRecord
   end
 
   def self.submit_current_cart(user, order)
-    carts = self.current_cart(user)    
+    carts = self.carts(user)    
     carts.update_all(order_id: order, status: "Pending")
     carts
   end

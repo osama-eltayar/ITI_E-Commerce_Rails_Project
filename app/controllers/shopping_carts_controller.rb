@@ -25,12 +25,13 @@ class ShoppingCartsController < ApplicationController
   end
 
   def create
-    authorize! :create, @shopping_cart
+    # authorize! :create, @shopping_cart
+    
     @shopping_cart = ShoppingCart.new(shopping_cart_params.merge(user_id: current_user.id, order_id: nil))
 
     respond_to do |format|
       if @shopping_cart.save
-        format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully created.' }
+        format.html { redirect_to @shopping_cart, notice: 'successfull added.' }
         format.json { render  @shopping_cart, status: :created, location: @shopping_cart }
       else
         format.html { render :new }
@@ -88,8 +89,7 @@ class ShoppingCartsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def shopping_cart_params
-      
+    def shopping_cart_params 
       params.permit(:product_id, :quantity)
     end
 

@@ -26,12 +26,12 @@ class Order < ApplicationRecord
 
   private
     def calculate_price
-      shopping_carts = ShoppingCart.current_cart(user.id)
+      shopping_carts = ShoppingCart.carts(user)
       shopping_carts.each{|cart| self.price += cart.price }
     end
 
     def submit_cart
-      ShoppingCart.submit_current_cart(user.id, self.id)
+      ShoppingCart.submit_current_cart(user, self.id)
     end
 
     def destroy_carts
