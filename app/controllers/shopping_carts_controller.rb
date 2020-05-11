@@ -26,6 +26,7 @@ class ShoppingCartsController < ApplicationController
 
   def create
     # authorize! :create, @shopping_cart
+    # abort shopping_cart_params.inspect
     products = ShoppingCart.cart_products(current_user)
     product = shopping_cart_params['product_id'].to_i
 
@@ -42,7 +43,7 @@ class ShoppingCartsController < ApplicationController
         format.html { redirect_to shopping_carts_path, notice: 'successfull added.' }
         format.json { render  @shopping_cart, status: :created, location: @shopping_cart }
       else
-        format.html { render :new }
+        format.html { redirect_to shopping_carts_path }
         format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
       end
     end
@@ -99,7 +100,7 @@ class ShoppingCartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shopping_cart_params 
-      params.permit(:product_id, :quantity)
+      params.require(:shopping_cart).permit(:product_id, :quantity)
     end
 
     def shopping_cart_params_update   
