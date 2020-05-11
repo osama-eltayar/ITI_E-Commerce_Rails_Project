@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'coupons/index'
   resources :stores
   devise_for :users, controllers: {
     confirmations: 'users/confirmations'

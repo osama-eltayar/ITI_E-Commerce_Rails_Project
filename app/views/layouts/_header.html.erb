@@ -21,7 +21,7 @@
           </li>
           <li class="nav-item active">
               <%= link_to "Coupons", coupons_path, :class=>"nav-link" %>
-              </li>
+          </li>
              
 
           
@@ -54,9 +54,6 @@
             <% end %>
             <li class="nav-item">
               <span class="nav-link"><%= current_user.username %></span>
-            </li>
-            <li class="nav-item">
-              <%= link_to "View Cart", shopping_carts_path, :class => "nav-link" %>
             </li>
             <% if current_user.admin? || current_user.seller? %>
               <li class="nav-item">
