@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_032158) do
     t.index ["store_id"], name: "index_products_on_store_id"
   end
 
-  create_table "shopping_carts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "shopping_carts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "product_id", null: false
     t.integer "quantity"
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_032158) do
     t.index ["user_id"], name: "index_shopping_carts_on_user_id"
   end
 
-  create_table "stores", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "stores", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.bigint "user_id", null: false
@@ -119,9 +119,9 @@ ActiveRecord::Schema.define(version: 2020_05_06_032158) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "role"
-    t.index ["email"], name: "index_users_on_email", unique: true
+    # t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
+    # t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
