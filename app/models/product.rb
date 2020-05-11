@@ -7,7 +7,11 @@ class Product < ApplicationRecord
     validates :brand_id, presence: true
     validates :category_id, presence: true
     validates :store_id, presence: true
-    validates :title, presence: true
+    validates :title, presence: true, uniqueness: {
+      case_sensitive: false,
+      scope: [:store, :brand_id, :category_id],
+      message: "should be unique in store, brand and category. this title already exists"
+    }
 
     def change_available_quantity(number)
         # abort number.inspect
@@ -15,7 +19,7 @@ class Product < ApplicationRecord
         # abort self.inspect
         self.save
     end
-    
+
     private
     def image_type
        if image.attached?
