@@ -39,7 +39,7 @@ class ShoppingCartsController < ApplicationController
     # abort @shopping_cart.inspect
     respond_to do |format|
       if @shopping_cart.save
-        format.html { redirect_to @shopping_cart, notice: 'successfull added.' }
+        format.html { redirect_to shopping_carts_path, notice: 'successfull added.' }
         format.json { render  @shopping_cart, status: :created, location: @shopping_cart }
       else
         format.html { render :new }
@@ -55,7 +55,7 @@ class ShoppingCartsController < ApplicationController
     authorize! :update, @shopping_cart
     respond_to do |format|
       if @shopping_cart.update(shopping_cart_params_update)
-        format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully updated.' }
+        format.html { redirect_to shopping_carts_path, notice: 'Shopping cart was successfully updated.' }
         format.json { render :show, status: :ok, location: @shopping_cart }
       else
         format.html { render :edit }

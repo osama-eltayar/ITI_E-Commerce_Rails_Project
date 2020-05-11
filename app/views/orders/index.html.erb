@@ -5,7 +5,9 @@
 <table class="table">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">User</th>
+      <%if current_user.admin?%>
+        <th scope="col">Buyer</th>
+      <%end%>
       <th scope="col">Status</th>
       <th scope="col">Price</th>
       <th ></th>
@@ -15,7 +17,9 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= order.user_name %></td>
+        <%if current_user.admin?%>
+          <td><%= order.user_name %></td>
+        <%end%>
         <td><%= order.status %></td>
         <td><%= order.price %></td>
         <td>

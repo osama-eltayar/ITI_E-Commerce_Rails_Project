@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
     respond_to :html, :js
     def index
+        
         # if params[:search].blank?
         #     @products = Product.all
         # else
@@ -19,6 +20,7 @@ class ProductsController < ApplicationController
     end
 
     def show
+       
         @product = Product.find(params[:id])
         respond_with( @product, :layout => !request.xhr? )
     end

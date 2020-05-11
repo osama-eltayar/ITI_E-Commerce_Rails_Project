@@ -4,6 +4,8 @@ class OrdersController < ApplicationController
   def index
     if current_user.buyer?
       @orders = Order.where(user_id: current_user.id)
+    elsif current_user.admin?
+      @orders = Order.all
     else
       redirect_to shopping_carts_path
     end

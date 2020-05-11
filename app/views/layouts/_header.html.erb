@@ -17,9 +17,6 @@
             <%= link_to "Categories", categories_path, :class=>"nav-link" %>
           </li>
           <li class="nav-item active">
-            <%= link_to "Products", products_path, :class=>"nav-link" %>
-          </li>
-          <li class="nav-item active">
               <%= link_to "Coupons", coupons_path, :class=>"nav-link" %>
           </li>
              
@@ -27,13 +24,13 @@
           
 
           <% if user_signed_in? %>
-            <% if current_user.buyer? %>
+            <% if current_user.buyer? || current_user.admin?%>
               <li class="nav-item active">
-                <%= link_to "My Orders", orders_path, :class=>"nav-link" %>
+                <%= link_to "Orders", orders_path, :class=>"nav-link" %>
               </li>
             <% end %>
             <li class="nav-item active">
-              <%= link_to "#{current_user.buyer? ? 'Shopping Cart' : 'Orders'}", shopping_carts_path, :class=>"nav-link" %>
+              <%= link_to "#{current_user.buyer? || current_user.admin? ? 'Shopping Cart' : 'Orders'}", shopping_carts_path, :class=>"nav-link" %>
             </li>
           <% end %>
           
