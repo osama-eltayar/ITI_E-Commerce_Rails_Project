@@ -19,7 +19,7 @@
                     ) %><br>
                   </h4>
                   <h5><%= product.price %> $</h5>
-                  <p class="card-text"><%= product.description %></p>
+                  <p><%=h truncate(product.description, :length => 50) %></p>
                 </div>
                 <div class="card-footer">
                   <small class="text-muted">★ ★ ★ ★ ☆</small>

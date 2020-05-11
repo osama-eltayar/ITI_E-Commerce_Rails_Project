@@ -2,7 +2,11 @@
     <div class="row justify-content-center">
 
         <div class="card" style="width: 25rem;">
+        <% if !@product.image.attached? %>
+          <%= image_tag "placeholder.png", class: "card-img-top", :size=>"245x140", alt: "" %>
+        <% else %>
             <%= image_tag(@product.image,:size=>"300x200", :class=>"card-img-top")if @product.image.attached?%>
+        <% end %>
             <div class="d-flex justify-content-between bd-highlight py-2">
                 <div class="p-2 bd-highlight"><small><strong>Category: </strong><%= @product.category.name %></small></div>
                 <div class="p-2 bd-highlight"><small><strong>Brand: </strong><%= @product.brand.name %></small></div>
