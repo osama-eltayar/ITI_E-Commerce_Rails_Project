@@ -2,9 +2,9 @@
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card h-100">
                   <% if !product.image.attached? %>
-                      <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+                    <%= image_tag "placeholder.png", class: "card-img-top", :size=>"245x140", alt: "" %>
                   <% else %>
-                      <%= image_tag(product.image, :class=>"card-img-top")if product.image.attached?%>
+                      <%= image_tag(product.image, :class=>"card-img-top", :size=>"245x140")if product.image.attached?%>
                   <% end %>
                 <div class="card-body">
                   <h4 class="card-title">
