@@ -7,7 +7,6 @@ one:
   in_stock_quantity: 1
 
 two:
-  title: MyString
   description: MyText
   price: 1
   in_stock_quantity: 1

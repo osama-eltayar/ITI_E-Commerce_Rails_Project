@@ -3,7 +3,11 @@ class Product < ApplicationRecord
     belongs_to :category
     has_one_attached :image
     belongs_to :store
-    validate :image_type
+    # validate :image_type
+    validates :brand_id, presence: true
+    validates :category_id, presence: true
+    validates :store_id, presence: true
+    validates :title, presence: true
 
     def change_available_quantity(number)
         # abort number.inspect

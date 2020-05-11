@@ -1,9 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @order.user_name %>
-</p>
+<%if current_user.seller? %>
+  <p>
+    <strong>User:</strong>
+    <%= @order.user_name %>
+  </p>
+<%end%>
 
 <p>
   <strong>Status:</strong>
@@ -15,5 +17,26 @@
   <%= @order.price %>
 </p>
 
-<%= link_to 'Edit', edit_order_path(@order) %> |
+<h2>Details</h2>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @order.shopping_carts.each do |shopping_cart| %>
+      <tr>
+        <td><%= shopping_cart.product.title %></td>
+        <td><%= shopping_cart.quantity %></td>
+        <td><%= shopping_cart.price %></td>
+        <td><%= shopping_cart.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <%= link_to 'Back', orders_path %>

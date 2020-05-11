@@ -5,12 +5,20 @@ class ShoppingCart < ApplicationRecord
 
   validate :check_available
 
-  def self.current_cart(user)
-    ShoppingCart.where(order_id: nil, user_id: user)  
+  def self.carts(user)
+    if(user.buyer?)
+      ShoppingCart.where(order_id: nil, user_id: user.id)
+    elsif(user.seller?)
+      ShoppingCart.where.not(order_id: nil).where(product_id: user.products)
+    end
+  end
+
+  def self.cart_products(user)
+    ShoppingCart.where(order_id: nil, user_id: user.id).select(:product_id).map(&:product_id)
   end
 
   def self.submit_current_cart(user, order)
-    carts = self.current_cart(user)    
+    carts = self.carts(user)    
     carts.update_all(order_id: order, status: "Pending")
     carts
   end
@@ -25,6 +33,12 @@ class ShoppingCart < ApplicationRecord
 
   def confirmed?
     self.status == "Confirmed"
+  end
+
+  
+
+  def user_name
+    user.username
   end
 
   before_save :calculate_price 
@@ -45,7 +59,6 @@ class ShoppingCart < ApplicationRecord
       if order.present?
         order.update_status(self.status)
       end
-      
     end
 
     def available_quantity?
@@ -60,7 +73,7 @@ class ShoppingCart < ApplicationRecord
     end
 
     def release_holding_quantity
-      product.change_available_quantity self.quantity
+      product.change_available_quantity -(self.quantity)
     end
 
     def change_available_quantity_in_product

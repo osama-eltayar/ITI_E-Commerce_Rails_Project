@@ -5,11 +5,7 @@ class ShoppingCartsController < ApplicationController
   # GET /shopping_carts
   # GET /shopping_carts.json
   def index
-    if(current_user.buyer?)
-      @shopping_carts = ShoppingCart.current_cart(current_user.id)
-    else
-      @shopping_carts = ShoppingCart.where.not(order_id: nil)
-    end
+    @shopping_carts=ShoppingCart.carts(current_user)
   end
 
   # GET /shopping_carts/1
@@ -21,26 +17,31 @@ class ShoppingCartsController < ApplicationController
   # GET /shopping_carts/new
   def new
     @shopping_cart = ShoppingCart.new
+    authorize! :create, @shopping_cart
   end
 
   # GET /shopping_carts/1/edit
   def edit
   end
 
-  # POST /shopping_carts
-  # POST /shopping_carts.json
   def create
-    # abort shopping_cart_params.inspect
-    @shopping_cart = ShoppingCart.new(shopping_cart_params.merge(user_id: current_user.id, order_id: nil))
-    # abort @shopping_cart.inspect
+    # authorize! :create, @shopping_cart
+    products = ShoppingCart.cart_products(current_user)
+    product = shopping_cart_params['product_id'].to_i
 
+    if products.include?(product)
+      @shopping_cart = ShoppingCart.where(order_id: nil, product_id: product, user_id: current_user.id).first
+      @shopping_cart.quantity +=shopping_cart_params['quantity'].to_i
+    else
+      @shopping_cart = ShoppingCart.new(shopping_cart_params.merge(user_id: current_user.id, order_id: nil))
+    end
+    
+    # abort @shopping_cart.inspect
     respond_to do |format|
       if @shopping_cart.save
-        # abort @shopping_cart.inspect
-        format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully created.' }
+        format.html { redirect_to @shopping_cart, notice: 'successfull added.' }
         format.json { render  @shopping_cart, status: :created, location: @shopping_cart }
       else
-        # abort @shopping_cart.inspect
         format.html { render :new }
         format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
       end
@@ -51,6 +52,7 @@ class ShoppingCartsController < ApplicationController
   # PATCH/PUT /shopping_carts/1.json
   def update
     # abort shopping_cart_params_update.inspect
+    authorize! :update, @shopping_cart
     respond_to do |format|
       if @shopping_cart.update(shopping_cart_params_update)
         format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully updated.' }
@@ -74,12 +76,19 @@ class ShoppingCartsController < ApplicationController
   end
   
   def confirm
+    @shopping_cart = ShoppingCart.find(params[:id])
+    authorize! :update, @shopping_cart
     ShoppingCart.find(params[:id]).update(status: "Confirmed")
     redirect_to shopping_carts_path 
   end
 
-  def delever
-    
+  def deliver
+    @shopping_cart = ShoppingCart.find(params[:id])
+    authorize! :update, @shopping_cart
+    if (@shopping_cart.order.status == "Confirmed")
+      @shopping_cart.update(status: "Delivered")
+    end
+    redirect_to shopping_carts_path 
   end
 
   private
@@ -89,8 +98,7 @@ class ShoppingCartsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def shopping_cart_params
-      
+    def shopping_cart_params 
       params.permit(:product_id, :quantity)
     end
 

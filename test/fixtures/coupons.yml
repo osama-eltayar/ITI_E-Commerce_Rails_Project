@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  expiration_date: 2020-05-11
+  usage_limit: 1
+  deduction_type: MyString
+  deduction_amount: 1
+  expired: false
+
+two:
+  name: MyString
+  expiration_date: 2020-05-11
+  usage_limit: 1
+  deduction_type: MyString
+  deduction_amount: 1
+  expired: false
