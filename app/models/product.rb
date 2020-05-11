@@ -4,6 +4,11 @@ class Product < ApplicationRecord
     has_one_attached :image
     belongs_to :store
     # validate :image_type
+
+    scope :search_product, -> (search) do
+      where('title LIKE :search OR description LIKE :search', search: "%#{search}%")
+    end
+
     validates :brand_id, presence: true
     validates :category_id, presence: true
     validates :store_id, presence: true
