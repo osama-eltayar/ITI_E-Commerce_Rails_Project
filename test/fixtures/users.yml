@@ -9,7 +9,7 @@ one:
   email: user1@gmail.com
   encrypted_password: 000000
 
-# column: value
-#
-# two: {}
-# column: value
+two:
+  username: user2
+  email: user2@gmail.com
+  encrypted_password: 000000
