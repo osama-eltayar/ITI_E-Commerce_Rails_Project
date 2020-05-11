@@ -43,7 +43,7 @@ class ShoppingCartsController < ApplicationController
         format.html { redirect_to shopping_carts_path, notice: 'successfull added.' }
         format.json { render  @shopping_cart, status: :created, location: @shopping_cart }
       else
-        format.html { redirect_to shopping_carts_path }
+        format.html { render shopping_carts_path, notice: 'not available' }
         format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
       end
     end

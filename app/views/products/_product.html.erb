@@ -28,7 +28,7 @@
       <% if ! user_signed_in? || current_user.buyer?%>
       <div class="d-flex justify-content-end bd-highlight mb-3">
           <div class="p-1 bd-highlight">   
-              <%= form_with model: @shopping_cart do |form| %>
+              <%= form_with model: @shopping_cart, local: true do |form| %>
                <% if @shopping_cart.errors.any? %>
                 <div id="error_explanation">
                   <h2><%= pluralize(@shopping_cart.errors.count, "error") %> prohibited this shopping_cart from being saved:</h2>
