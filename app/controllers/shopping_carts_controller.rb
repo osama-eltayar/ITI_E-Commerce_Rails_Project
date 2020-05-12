@@ -26,6 +26,7 @@ class ShoppingCartsController < ApplicationController
 
   def create
     # authorize! :create, @shopping_cart
+    # abort shopping_cart_params.inspect
     products = ShoppingCart.cart_products(current_user)
     product = shopping_cart_params['product_id'].to_i
 
@@ -39,10 +40,10 @@ class ShoppingCartsController < ApplicationController
     # abort @shopping_cart.inspect
     respond_to do |format|
       if @shopping_cart.save
-        format.html { redirect_to @shopping_cart, notice: 'successfull added.' }
+        format.html { redirect_to shopping_carts_path, notice: 'successfull added.' }
         format.json { render  @shopping_cart, status: :created, location: @shopping_cart }
       else
-        format.html { render :new }
+        format.html { redirect_to root_path, alert: 'not available' }
         format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
       end
     end
@@ -55,7 +56,7 @@ class ShoppingCartsController < ApplicationController
     authorize! :update, @shopping_cart
     respond_to do |format|
       if @shopping_cart.update(shopping_cart_params_update)
-        format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully updated.' }
+        format.html { redirect_to shopping_carts_path, notice: 'Shopping cart was successfully updated.' }
         format.json { render :show, status: :ok, location: @shopping_cart }
       else
         format.html { render :edit }
@@ -99,7 +100,7 @@ class ShoppingCartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shopping_cart_params 
-      params.permit(:product_id, :quantity)
+      params.require(:shopping_cart).permit(:product_id, :quantity)
     end
 
     def shopping_cart_params_update   

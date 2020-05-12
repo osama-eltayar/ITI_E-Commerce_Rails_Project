@@ -5,6 +5,7 @@ class HomeController < ApplicationController
     @products=Product.all()
     @categories=Category.all()
     @shoppingCarts=ShoppingCart.where(user_id: current_user)
+    @shopping_cart = ShoppingCart.new
     # byebug
   end
 end

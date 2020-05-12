@@ -4,12 +4,16 @@ class ShoppingCart < ApplicationRecord
   belongs_to :order, optional: true
 
   validate :check_available
+  validates_associated :product
+  validates :quantity, :numericality => { :greater_than_or_equal_to => 1 }
 
   def self.carts(user)
     if(user.buyer?)
       ShoppingCart.where(order_id: nil, user_id: user.id)
     elsif(user.seller?)
       ShoppingCart.where.not(order_id: nil).where(product_id: user.products)
+    elsif(user.admin?)
+      ShoppingCart.all
     end
   end
 
@@ -35,7 +39,9 @@ class ShoppingCart < ApplicationRecord
     self.status == "Confirmed"
   end
 
-  
+  def avilable_product
+    product.in_stock_quantity
+  end
 
   def user_name
     user.username
@@ -48,14 +54,10 @@ class ShoppingCart < ApplicationRecord
 
   private
     def calculate_price
-      # abort " #{product.price} self.price osama"
       self.price = product.price * self.quantity
-      # abort " #{self.price} self.price osama"
     end
 
     def check_status
-      # abort (order.present?).inspect
-      # abort order.update_status(self.status)
       if order.present?
         order.update_status(self.status)
       end

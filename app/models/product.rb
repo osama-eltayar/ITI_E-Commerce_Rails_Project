@@ -3,7 +3,20 @@ class Product < ApplicationRecord
     belongs_to :category
     has_one_attached :image
     belongs_to :store
-    validate :image_type
+    # validate :image_type
+
+    scope :search_product, -> (search) do
+      where('title LIKE :search OR description LIKE :search', search: "%#{search}%")
+    end
+
+    validates :brand_id, presence: true
+    validates :category_id, presence: true
+    validates :store_id, presence: true
+    validates :title, presence: true, uniqueness: {
+      case_sensitive: false,
+      scope: [:store, :brand_id, :category_id],
+      message: "should be unique in store, brand and category. this title already exists"
+    }
 
     def change_available_quantity(number)
         # abort number.inspect
@@ -11,7 +24,7 @@ class Product < ApplicationRecord
         # abort self.inspect
         self.save
     end
-    
+
     private
     def image_type
        if image.attached?

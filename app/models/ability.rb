@@ -16,10 +16,10 @@ class Ability
         can [:update, :read], Store, user_id: user.id
 
         can :create, Product
-        can [:update, :read], Product, store_id: user.store
+        can [:update, :read, :destroy], Product, store_id: user.store.id
         can :read, ActiveAdmin::Page, name: "Dashboard"
 
-        
+
 
         # can :manage, Product, store_id: {store: {user_id: user.id}}
         # can :manage, Order
