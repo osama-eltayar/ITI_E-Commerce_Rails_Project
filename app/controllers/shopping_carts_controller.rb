@@ -16,17 +16,15 @@ class ShoppingCartsController < ApplicationController
 
   # GET /shopping_carts/new
   def new
-    @shopping_cart = ShoppingCart.new
-    authorize! :create, @shopping_cart
+    redirect_to shopping_carts_path
   end
 
   # GET /shopping_carts/1/edit
   def edit
+    redirect_to shopping_carts_path
   end
 
   def create
-    # authorize! :create, @shopping_cart
-    # abort shopping_cart_params.inspect
     products = ShoppingCart.cart_products(current_user)
     product = shopping_cart_params['product_id'].to_i
 
@@ -52,14 +50,13 @@ class ShoppingCartsController < ApplicationController
   # PATCH/PUT /shopping_carts/1
   # PATCH/PUT /shopping_carts/1.json
   def update
-    # abort shopping_cart_params_update.inspect
     authorize! :update, @shopping_cart
     respond_to do |format|
       if @shopping_cart.update(shopping_cart_params_update)
         format.html { redirect_to shopping_carts_path, notice: 'Shopping cart was successfully updated.' }
         format.json { render :show, status: :ok, location: @shopping_cart }
       else
-        format.html { render :edit }
+        format.html { redirect_to shopping_carts_path, alert: 'not available quantity' }
         format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
       end
     end
@@ -70,7 +67,7 @@ class ShoppingCartsController < ApplicationController
   def destroy
     @shopping_cart.destroy
     respond_to do |format|
-      format.html { redirect_to shopping_carts_url, notice: 'Shopping cart was successfully destroyed.' }
+      format.html { redirect_to shopping_carts_url, notice: 'Item was successfully deleted.' }
       format.js
       format.json { head :no_content }
     end

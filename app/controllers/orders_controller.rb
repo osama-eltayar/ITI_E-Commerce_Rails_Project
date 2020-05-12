@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
-        format.html { render :new }
+        format.html { redirect_to shopping_carts_path, alert: 'error happened when checkout' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -46,9 +46,13 @@ class OrdersController < ApplicationController
 
   def destroy
     
-    @order.destroy
+    
     @order = Order.find(params[:id])
     authorize! :destroy, @order
+    if @order.status == "Pending"
+      @order.destroy
+    end
+    
     respond_to do |format|
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }

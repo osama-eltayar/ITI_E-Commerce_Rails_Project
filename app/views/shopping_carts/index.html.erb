@@ -21,7 +21,7 @@
         <%if current_user.buyer?%>
           <%= form_with(model: shopping_cart, local: true) do |form| %>
             <%= form.number_field :quantity, value: shopping_cart.quantity, min: 1, max: (shopping_cart.quantity+shopping_cart.avilable_product) %>
-            <%= form.submit "add", :class => 'btn btn-info ' %>
+            <%= form.submit "update", :class => 'btn btn-info ' %>
           <% end %>
         <%else%>
           <%= shopping_cart.quantity%>
