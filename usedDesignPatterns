@@ -1,0 +1,9 @@
+1- Query Objects [productQuery] :
+	why :
+	This logic isn’t reusable
+	Any changes to the product scheme can break this code
+	
+2- View Objects (Presenter) 
+	    [HomePresenter] :
+	why :
+	The View contains too much calculation logic
