@@ -44,19 +44,20 @@ class OrdersController < ApplicationController
     redirect_to shopping_carts_path
   end
 
-  def destroy
-    
-    
+  def destroy 
     @order = Order.find(params[:id])
     authorize! :destroy, @order
     if @order.status == "Pending"
       @order.destroy
-    end
-    
-    respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+      respond_to do |format|
+        format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
+      end
+
+    else
+      respond_to do |format|
+        format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
+      end
+    end   
   end
 
   private
