@@ -26,6 +26,11 @@ class Ability
 
         can :create, ShoppingCart
         can [:destroy, :update], ShoppingCart, product_id: user.products
+
+
+        can [:read], Coupon, coupon_id: coupon.id 
+        can :read, ActiveAdmin::Page, name: "Dashboard"
+
       elsif user.buyer?
 
         #handle buyer ability
