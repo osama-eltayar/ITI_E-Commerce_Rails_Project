@@ -64,8 +64,9 @@ class ShoppingCart < ApplicationRecord
     end
 
     def available_quantity?
+      old_quantity = self.quantity || 0
       available = product.in_stock_quantity
-      quantity <= available
+      quantity <= available + old_quantity
     end
 
     def check_available
