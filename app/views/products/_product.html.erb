@@ -7,6 +7,7 @@
           <%= image_tag(product.image,:size=>"245x140", :class=>"card-img-top")if product.image.attached?%>
       <% end %>
     <div class="card-body">
+    
       <h4 class="card-title">
         <%= link_to( "#{product.title}".html_safe,
         product_path(product.id), # TODO hardwired
