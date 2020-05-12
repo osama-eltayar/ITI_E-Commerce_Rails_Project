@@ -14,7 +14,8 @@ class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
     authorize! :read, @order
-  end
+  end 
+  
 
   def new
     redirect_to shopping_carts_path
