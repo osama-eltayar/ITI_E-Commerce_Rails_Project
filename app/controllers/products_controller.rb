@@ -2,7 +2,8 @@ class ProductsController < ApplicationController
     respond_to :html, :js
     def index
         ability = Product.all
-        @products = ProductQuery.new.call(ability, params).paginate(page: params[:page])
+        @products = ProductQuery.new.call(ability, params).paginate(page: params[:page]) if !current_user.admin?
+        @products = ProductQuery.new.call(ability, params) if current_user.admin?
         respond_with( @products, :layout => !request.xhr? )
 
     end
