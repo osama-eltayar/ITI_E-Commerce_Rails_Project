@@ -28,8 +28,8 @@ class Ability
         can [:destroy, :update], ShoppingCart, product_id: user.products
 
 
-        can [:read], Coupon, coupon_id: coupon.id 
-        can :read, ActiveAdmin::Page, name: "Dashboard"
+        # can [:read], Coupon, coupon_id: coupon.id 
+        # can :read, ActiveAdmin::Page, name: "Dashboard"
 
       elsif user.buyer?
 
