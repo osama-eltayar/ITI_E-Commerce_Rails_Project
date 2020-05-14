@@ -45,6 +45,8 @@ class Ability
         can :create, [ShoppingCart, Order]
         can [:destroy, :update], ShoppingCart, user_id: user.id
         can [:read, :destroy], Order, user_id: user.id
+      else
+        can :read, [Category, Brand, Product]
       end
     end
     # Define abilities for the passed in user here. For example:
