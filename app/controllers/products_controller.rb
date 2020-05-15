@@ -16,8 +16,8 @@ class ProductsController < ApplicationController
 
     def new
       @stores = Store.all
-    @product = Product.new
-    @store = current_user.store()
+      @product = Product.new
+      @store = current_user.store
     authorize! :create, @product
     end
 
@@ -30,9 +30,15 @@ class ProductsController < ApplicationController
 
     def create
         @product = Product.new(product_params)
+        if current_user.seller?
+          @product.store = current_user.store
+        end
         # @product.store = current_user.store()
-        @product.save
-        redirect_to products_path
+  		if @product.save
+  	    redirect_to @product
+  	  else
+  	    render 'new'
+  	  end
 
     end
 

@@ -16,7 +16,10 @@ ActiveAdmin.register Store do
   # end
     # seller = User.find(params[:user_id])
     # seller
+
+    before_action :assigned_to_user, only: :create
     controller do
+
       def create
         # Good
         @store = Store.new(permitted_params[:store])
@@ -26,5 +29,29 @@ ActiveAdmin.register Store do
           redirect_to admin_stores_path
         end
       end
+
+      private
+
+      def assigned_to_user
+        @seller = User.find(params[:store][:user_id])
+        if @seller.store
+          flash[:error] = "Seller is already assigned to store"
+          redirect_to new_admin_store_url # halts request cycle
+        end
+      end
+
     end
+
+
+
+      form title: 'A custom title' do |f|
+         inputs 'Details' do
+           input :seller, input_html: { value: current_user.username,  disabled: true}
+           input :name
+           input :description
+         end
+         actions
+       end
+
+
 end

@@ -1,6 +1,6 @@
 class StoresController < InheritedResources::Base
   load_and_authorize_resource
-  
+
   private
 
     def store_params
