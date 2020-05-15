@@ -17,6 +17,9 @@
         </div>
     </div>
 </div>
+<div class="mb-5 text-center">
+    <%= will_paginate @products, :container => false, :page_links => false %>
+</div>
 
 <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

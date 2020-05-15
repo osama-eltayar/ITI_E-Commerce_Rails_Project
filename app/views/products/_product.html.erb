@@ -7,7 +7,7 @@
           <%= image_tag(product.image,:size=>"245x140", :class=>"card-img-top")if product.image.attached?%>
       <% end %>
     <div class="card-body">
-    
+
       <h4 class="card-title">
         <%= link_to( "#{product.title}".html_safe,
         product_path(product.id), # TODO hardwired
@@ -15,7 +15,7 @@
         :controller => 'products',
         :action => 'show',
         remote: true,
-        'data-toggle' => "modal", 
+        'data-toggle' => "modal",
         'data-target' => '#modal-window'
         ) %><br>
       </h4>
@@ -28,20 +28,10 @@
       <div class="text-center">
           <small class="text-muted">★ ★ ★ ★ ☆</small>
       </div>
-      <% if  (! user_signed_in? || current_user.buyer?) && product.in_stock_quantity > 0 %>
+      <% if  (!user_signed_in? || current_user.buyer?) && product.in_stock_quantity > 0 %>
       <div class="d-flex justify-content-end bd-highlight mb-3">
-          <div class="p-1 bd-highlight">   
-              <%= form_with model: @shopping_cart, local: true do |form| %>
-                  <% if @shopping_cart.errors.any? %>
-                    <div id="error_explanation">
-                      <h2><%= pluralize(@shopping_cart.errors.count, "error") %> prohibited this shopping_cart from being saved:</h2>
-                      <ul>
-                        <% @shopping_cart.errors.full_messages.each do |message| %>
-                          <li><%= message %></li>
-                        <% end %>
-                      </ul>
-                    </div>
-                  <% end %>
+          <div class="p-1 bd-highlight">
+              <%= form_with model: ShoppingCart, local: true do |form| %>
                   <%= form.hidden_field(:product_id, :value => product.id) %>
                   <div class="row">
                     <%= form.number_field :quantity, :max => product.in_stock_quantity, min: 1, :class => 'w-25 mx-1 col-4 form-control', :value => 1  %>
@@ -54,4 +44,3 @@
     </div>
   </div>
 </div>
-  

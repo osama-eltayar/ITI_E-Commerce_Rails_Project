@@ -4,7 +4,7 @@ class Product < ApplicationRecord
     has_one_attached :image
     belongs_to :store
     # validate :image_type
-
+    self.per_page = 9
     scope :search_product, -> (search) do
       where('title LIKE :search OR description LIKE :search', search: "%#{search}%")
     end

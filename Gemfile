@@ -25,7 +25,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootstrap', '~> 4.4.1'
 #jquery
 gem 'jquery-rails'
-
+gem 'will_paginate', '~> 3.1.0'
 #handle authentication
 gem 'devise'
 #handle authorization

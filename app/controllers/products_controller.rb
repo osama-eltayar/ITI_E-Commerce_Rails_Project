@@ -1,8 +1,9 @@
 class ProductsController < ApplicationController
+    before_action :authenticate_user!, :except => [:show, :index]
     respond_to :html, :js
     def index
         ability = Product.all
-        @products = ProductQuery.new.call(ability, params)
+        @products = ProductQuery.new.call(ability, params).paginate(page: params[:page])
         respond_with( @products, :layout => !request.xhr? )
 
     end

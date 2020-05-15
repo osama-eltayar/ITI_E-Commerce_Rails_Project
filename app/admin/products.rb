@@ -29,7 +29,7 @@ ActiveAdmin.register Product do
       row :category
       row :store
     end
-    active_admin_comments
+    # active_admin_comments
   end
 
   index do
