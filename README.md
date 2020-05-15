@@ -34,7 +34,6 @@ Things you may want to cover:
 		password as buyer : 12345678
 		username as seller : seller1
 		password as seller : 000000
-	note: home page filter will not work untill you sign in
 
 	Locally:
 		run 'rake db:seed' then
