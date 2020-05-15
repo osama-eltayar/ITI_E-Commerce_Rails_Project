@@ -2,7 +2,14 @@ class ProductsController < ApplicationController
     before_action :authenticate_user!, :except => [:show, :index]
     respond_to :html, :js
     def index
-        ability = Product.all
+        # abort request.url 
+        if(current_user.admin?)
+            ability = Product.all
+        elsif(current_user.seller?)
+            ability = Product.where(id: current_user.products)
+        else
+            redirect_to root_path
+        end
         @products = ProductQuery.new.call(ability, params).paginate(page: params[:page])
         respond_with( @products, :layout => !request.xhr? )
 
