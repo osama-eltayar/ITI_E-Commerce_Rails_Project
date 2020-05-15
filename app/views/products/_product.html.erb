@@ -28,7 +28,7 @@
       <div class="text-center">
           <small class="text-muted">★ ★ ★ ★ ☆</small>
       </div>
-      <% if  (! user_signed_in? || current_user.buyer?) && product.in_stock_quantity > 0 %>
+      <% if  current_user.present? && (current_user.buyer?) && product.in_stock_quantity > 0 %>
       <div class="d-flex justify-content-end bd-highlight mb-3">
           <div class="p-1 bd-highlight">   
               <%= form_with model: @shopping_cart, local: true do |form| %>
