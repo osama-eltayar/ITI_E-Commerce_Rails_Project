@@ -1,4 +1,5 @@
-<%= form_with(model: Product, method: :get, :remote => true, :html => { :id => 'new-product-form' }) do %>
+<%= form_with(model: Product, method: :get, :local => (request.url.include?"products")?true:false , :html => { :id => 'new-product-form' }) do %>
+
 <div class="input-group">
     <div class="field">
         <%= search_field_tag :min, params[:min], placeholder: "min", class: "form-control min" %>
@@ -15,6 +16,7 @@
     <% categories_array = homePresenter.allCategories %>
     <%= select_tag :category_id, options_for_select(categories_array,params[:category_id]), {:include_blank => "category" ,class: 'btn btn-outline-info'}%>
     <%if  (request.url.include?"products") && (current_user.seller?) %>
+    <input type="hidden" name="store_id" value="<%= current_user.store.id %>" class='btn btn-outline-info'>
     <%= button_tag current_user.store.name, :class => 'btn btn-outline-info'%>
     <%else%>
     <% stores_array = homePresenter.allStores %>
