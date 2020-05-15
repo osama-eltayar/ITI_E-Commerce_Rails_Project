@@ -1,49 +1,54 @@
-<h1>new</h1>
+<div class="d-flex justify-content-end">
+<span class="p-2 rounded text-white bg-danger">Store: <%= @store.name %><span>
+</div>
+
+<h3 class="text-center"><strong class="btn-primary rounded p-2">New Product</strong></h3>
+<div class="container w-50 mb-5">
 <%= form_with(model:@product, local: true) do |form| %>
-<div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-</div>
+    <div class="form-group">
+        <%= form.label :title %>
+        <%= form.text_field :title, class: "form-control" %>
+    </div>
 
-<div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-</div>
+    <div class="form-group">
+        <%= form.label :description %>
+        <%= form.text_area :description, class: "form-control" %>
+    </div>
 
-<div class="field">
-    <%= form.label :price %>
-    <%= form.number_field :price %>
-</div>
+    <div class="form-group">
+        <%= form.label :price %>
+        <%= form.number_field :price, class: "form-control" %>
+    </div>
 
-<div class="field">
-    <%= form.label :in_stock_quantity %>
-    <%= form.number_field :in_stock_quantity %>
-</div>
+    <div class="form-group">
+        <%= form.label :in_stock_quantity %>
+        <%= form.number_field :in_stock_quantity, class: "form-control" %>
+    </div>
 
-<div class="field">
-    <%= form.label :image %>
-    <%= form.file_field :image %>
-</div>
+    <div class="form-group">
+        <%=form.label :brand_id%>
+        <%= form.collection_select(:brand_id , Brand.all, :id,:name, {:prompt => true}, {class: "form-control"}) %>
+    </div>
 
-<div class="field">
-    <%=form.label :brand_id%>
-    <%= form.collection_select(:brand_id , Brand.all, :id,:name) %>
-</div>
+    <div class="form-group">
+        <%=form.label :category_id%>
+        <%= form.collection_select(:category_id , Category.all, :id,:name, {:prompt => true}, {class: "form-control"}) %>
+    </div>
 
-<div class="field">
-    <%=form.label :category_id%>
-    <%= form.collection_select(:category_id , Category.all, :id,:name) %>
-</div>
+    <div class="form-group">
+        <% if current_user.admin? %>
+            <%= select('product', :store_id, options_for_select(@stores.collect{ |u| [u.name, u.id] })) %>
+        <% elsif current_user.seller? %>
+            <%= form.hidden_field :store_id, :value => @store.id %>
+        <% end %>
+    </div>
 
-<div class="field">
-  <% if current_user.admin? %>
-    <%= select('product', :store_id, options_for_select(@stores.collect{ |u| [u.name, u.id] })) %>
-  <% elsif current_user.seller? %>
-    <%=form.label :store%>
-    <%= form.hidden_field :store_id, :value => @store.id %>
-    <%= @store.name %>
-  <% end %>
+    <div class="form-group">
+        <%= form.label :image %>
+        <%= form.file_field :image, class: "form-control-file" %>
+    </div>
+    <div class="text-center">
+    <%= form.submit 'Create Product', class: "btn btn-primary mt-2" %>
+    </div>
+    <% end %>
 </div>
-<%= form.submit %>
-<% end %>
-*/
