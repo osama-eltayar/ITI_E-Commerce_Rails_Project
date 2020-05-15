@@ -49,9 +49,13 @@ class ShoppingCart < ApplicationRecord
 
   before_save :calculate_price 
   after_update :check_status
-  after_save :change_available_quantity_in_product 
-  before_destroy :release_holding_quantity
+  # after_save :change_available_quantity_in_product 
+  # before_destroy :release_holding_quantity
 
+  def release_holding_quantity
+    product.change_available_quantity -(self.quantity)
+  end
+  
   private
     def calculate_price
       self.price = product.price * self.quantity
@@ -75,9 +79,6 @@ class ShoppingCart < ApplicationRecord
       end  
     end
 
-    def release_holding_quantity
-      product.change_available_quantity -(self.quantity)
-    end
 
     def change_available_quantity_in_product
       new_number = self.quantity

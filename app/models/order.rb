@@ -29,7 +29,10 @@ class Order < ApplicationRecord
   private
     def calculate_price
       shopping_carts = ShoppingCart.carts(user)
-      shopping_carts.each{|cart| self.price += cart.price }
+      shopping_carts.each do |cart| 
+        cart.product.change_available_quantity cart.quantity
+        self.price += cart.price
+      end
     end
 
     def submit_cart
@@ -37,6 +40,10 @@ class Order < ApplicationRecord
     end
 
     def destroy_carts
-      shopping_carts.destroy_all
+      # shopping_carts.destroy_all
+      shopping_carts.each do |cart|
+        cart.release_holding_quantity
+        cart.destroy
+      end
     end
 end
