@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
     before_action :authenticate_user!, :except => [:show, :index]
     respond_to :html, :js
     def index
+        # abort request.url 
         if(current_user.admin?)
             ability = Product.all
         elsif(current_user.seller?)
