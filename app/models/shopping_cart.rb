@@ -22,7 +22,7 @@ class ShoppingCart < ApplicationRecord
   end
 
   def self.submit_current_cart(user, order)
-    carts = self.carts(user)    
+    carts = self.carts(user)
     carts.update_all(order_id: order, status: "Pending")
     carts
   end
@@ -47,15 +47,15 @@ class ShoppingCart < ApplicationRecord
     user.username
   end
 
-  before_save :calculate_price 
+  before_save :calculate_price
   after_update :check_status
-  # after_save :change_available_quantity_in_product 
+  # after_save :change_available_quantity_in_product
   # before_destroy :release_holding_quantity
 
   def release_holding_quantity
     product.change_available_quantity -(self.quantity)
   end
-  
+
   private
     def calculate_price
       self.price = product.price * self.quantity
@@ -67,9 +67,9 @@ class ShoppingCart < ApplicationRecord
       end
     end
 
-   
 
-    def available_quantity? 
+
+    def available_quantity?
       old_quantity = quantity_was || 0
       available = product.in_stock_quantity
       quantity <= (available + old_quantity)
@@ -78,7 +78,7 @@ class ShoppingCart < ApplicationRecord
     def check_available
       unless available_quantity?
         errors.add(:quantity, "sorry quantity no available ")
-      end  
+      end
     end
 
 
