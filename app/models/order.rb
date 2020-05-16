@@ -2,6 +2,7 @@ class Order < ApplicationRecord
     belongs_to :user
     has_many :shopping_carts
     belongs_to :coupon, optional: true
+    validate :check_available_items
 
 
     
@@ -46,4 +47,17 @@ class Order < ApplicationRecord
         cart.destroy
       end
     end
+
+    def check_available_items
+      shopping_carts.each do |cart|
+        unless item_available?(cart)
+          errors.add(:quantity, "sorry quantity no available for #{cart.product.title} ")
+        end
+      end
+    end
+
+    def item_available?(cart)
+      cart.product.in_stock_quantity >= cart.quantity
+    end
+
 end

@@ -46,11 +46,11 @@ ActiveAdmin.register Store do
 
       form title: 'A custom title' do |f|
          inputs 'Details' do
-           if current_user.seller?
-           input :seller, input_html: { value: current_user.username,  disabled: true}
-         else
-         input :user
-         end
+          if current_user.seller?
+            input :seller,  input_html: { value: current_user.username,  disabled: true}
+          else
+            input :user
+          end
            input :name
            input :description
          end

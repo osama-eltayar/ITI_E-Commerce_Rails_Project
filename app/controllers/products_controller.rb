@@ -29,6 +29,7 @@ class ProductsController < ApplicationController
     end
 
     def edit
+      @stores = Store.all
         @product = Product.find(params[:id])
         # authorize! :manage, @product
 
